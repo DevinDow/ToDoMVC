@@ -1,0 +1,23 @@
+body {
+	font-family: Verdana, Helvetica, sans-serif;
+	background-color: #DDDDDD;
+	margin: 8px;
+}
+
+.title {
+	font-size: xx-large;
+	letter-spacing: 0.14em;
+}
+
+h2 {
+	font-size: 1.2em;
+}
+
+#login {
+	font-size: 25px;
+}
+
+#login input {
+	font-size: 25px;
+}
+

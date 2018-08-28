@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ToDoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ToDoModelStoreContainer">
+    <EntitySet Name="Lists" EntityType="ToDoModel.Store.Lists" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ListItems" EntityType="ToDoModel.Store.ListItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TimeFrames" EntityType="ToDoModel.Store.TimeFrames" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ToDoModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_List_User" Association="ToDoModel.Store.FK_List_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="List" EntitySet="Lists" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ListItem_List" Association="ToDoModel.Store.FK_ListItem_List">
+      <End Role="List" EntitySet="Lists" />
+      <End Role="ListItem" EntitySet="ListItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Lists">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="char" Nullable="false" MaxLength="16" />
+    <Property Name="ListOrder" Type="int" Nullable="false" />
+    <Property Name="UseTimeFrames" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ListItems">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ListID" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TimeFrames">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="char" Nullable="false" MaxLength="16" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="char" Nullable="false" MaxLength="16" />
+  </EntityType>
+  <Association Name="FK_List_User">
+    <End Role="User" Type="ToDoModel.Store.Users" Multiplicity="1" />
+    <End Role="List" Type="ToDoModel.Store.Lists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="List">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ListItem_List">
+    <End Role="List" Type="ToDoModel.Store.Lists" Multiplicity="1" />
+    <End Role="ListItem" Type="ToDoModel.Store.ListItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="List">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ListItem">
+        <PropertyRef Name="ListID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ToDoModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ToDoEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Lists" EntityType="ToDoModel.List" />
+          <EntitySet Name="ListItems" EntityType="ToDoModel.ListItem" />
+          <EntitySet Name="TimeFrames" EntityType="ToDoModel.TimeFrame" />
+          <EntitySet Name="Users" EntityType="ToDoModel.User" />
+          <AssociationSet Name="FK_List_User" Association="ToDoModel.FK_List_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListItem_List" Association="ToDoModel.FK_ListItem_List">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="ListItem" EntitySet="ListItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="16" Unicode="false" FixedLength="true" />
+          <Property Name="ListOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ToDoModel.FK_List_User" FromRole="List" ToRole="User" />
+          <NavigationProperty Name="ListItems" Relationship="ToDoModel.FK_ListItem_List" FromRole="List" ToRole="ListItem" />
+          <Property Type="Boolean" Name="UseTimeFrames" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="ListID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="List" Relationship="ToDoModel.FK_ListItem_List" FromRole="ListItem" ToRole="List" />
+        </EntityType>
+        <EntityType Name="TimeFrame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="16" Unicode="false" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="16" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="Lists" Relationship="ToDoModel.FK_List_User" FromRole="User" ToRole="List" />
+        </EntityType>
+        <Association Name="FK_List_User">
+          <End Role="User" Type="ToDoModel.User" Multiplicity="1" />
+          <End Role="List" Type="ToDoModel.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListItem_List">
+          <End Role="List" Type="ToDoModel.List" Multiplicity="1" />
+          <End Role="ListItem" Type="ToDoModel.ListItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ListItem">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ToDoModelStoreContainer" CdmEntityContainer="ToDoEntities">
+    <EntitySetMapping Name="Lists">
+      <EntityTypeMapping TypeName="IsTypeOf(ToDoModel.List)">
+        <MappingFragment StoreEntitySet="Lists">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ListOrder" ColumnName="ListOrder" />
+          <ScalarProperty Name="UseTimeFrames" ColumnName="UseTimeFrames" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ListItems">
+      <EntityTypeMapping TypeName="IsTypeOf(ToDoModel.ListItem)">
+        <MappingFragment StoreEntitySet="ListItems">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ListID" ColumnName="ListID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TimeFrames">
+      <EntityTypeMapping TypeName="IsTypeOf(ToDoModel.TimeFrame)">
+        <MappingFragment StoreEntitySet="TimeFrames">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(ToDoModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <edmx:Diagram Name="ToDo">
+        <edmx:EntityTypeShape EntityType="ToDoModel.List" Width="1.375" PointX="2.375" PointY="0.5" Height="2.338847700953484" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ToDoModel.ListItem" Width="1.125" PointX="4.625" PointY="0.5" Height="2.5496224455038696" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ToDoModel.TimeFrame" Width="1.25" PointX="0.5" PointY="2.75" Height="1.4957487227519337" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ToDoModel.User" Width="1" PointX="0.5" PointY="0.5" Height="1.9172982118527084" IsExpanded="true" />
+        <edmx:AssociationConnector Association="ToDoModel.FK_List_User" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="1.8125" PointY="3.75" />
+          <edmx:ConnectorPoint PointX="1.8125" PointY="2.838847700953484" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="ToDoModel.FK_ListItem_List" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="2" PointY="1.669423850476742" />
+          <edmx:ConnectorPoint PointX="2.75" PointY="1.669423850476742" />
+        </edmx:AssociationConnector>
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

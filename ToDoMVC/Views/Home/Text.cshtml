@@ -1,0 +1,31 @@
+﻿@model ToDoMVC.ViewModels.HomeIndexVM
+
+@{
+	Layout = "~/Views/Shared/None.cshtml";
+}
+
+@foreach (var list in Model.Lists) {
+			
+	<div style="border:1px solid black; padding-left:5px; margin:5px 15px 15px 5px; padding:5px;">
+
+		<h2>@list.Name</h2> 
+
+		@foreach (var item in Model.ListItems) {
+			if (item.ListID != list.ID) {
+				continue;
+			}
+		
+				if (list.UseTimeFrames) {
+					@Model.TimeFrames[item.Priority].Name
+				}
+				else {
+					@item.Priority
+				}
+				
+				<label> - </label>
+				@item.Text
+			<br />
+		}
+	</div>
+
+}

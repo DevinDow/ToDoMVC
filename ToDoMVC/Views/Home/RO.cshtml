@@ -1,0 +1,38 @@
+﻿@model ToDoMVC.ViewModels.HomeIndexVM
+
+@foreach (var list in Model.Lists) {
+			
+	<div style="border:1px solid black; width:480px; margin:15px 5px; padding:5px;">
+
+		<div style="font-size:1.3em; font-weight:bold; margin:3px 20px 5px 0;">@list.Name</div> 
+
+		<table>
+
+		@foreach (var item in Model.ListItems) {
+			if (item.ListID != list.ID) {
+				continue;
+			}
+		
+			<tr>
+				<td style="width:@(list.UseTimeFrames ? 110 : 25)px; background:@Model.Colors[Math.Min(item.Priority, 12)].Name;">
+				@if (list.UseTimeFrames) {
+					@Model.TimeFrames[item.Priority].Name
+				}
+				else {
+					@item.Priority
+				}
+				</td>
+				<td>
+					@item.Text
+				</td>
+			</tr>
+		}
+
+		</table>
+
+	</div>
+	
+}
+
+<div style="clear:both;">@Html.ActionLink("Editable", "Index")</div>
+<div style="clear:both;">@Html.ActionLink("Text", "Text")</div>

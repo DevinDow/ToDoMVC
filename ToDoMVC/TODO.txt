@@ -1,0 +1,18 @@
+﻿TODO
+----
+
+Removing UserID from ListItems in favor of Joining to List.UserID
+- therefore can two rows of Lists point to the same List for different Users, thus sharing a list?
+
+SHELVE CHANGES
+ENABLE MIGRATIONS
+SAVE INITIAL
+UNSEHLVE CHANGES
+MIGRATE
+
+
+MVC4 for Mobile
+
+Create List
+Edit List
+Delete List
